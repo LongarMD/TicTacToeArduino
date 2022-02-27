@@ -19,6 +19,10 @@ unsigned long blinkTime = 0;
 int blinkPin[2] = {0, 0};
 int blinkColor = 0;
 
+bool gameEnded = false;
+unsigned const long END_TIME_OFFSET = 2000;
+unsigned long endTime = 0;
+
 int currentPlayer = 1;
 int currentPos[2] = {0, 0};
 
@@ -201,6 +205,17 @@ void loop()
     
     DisplayGrid();
 
+    if(gameEnded)
+    {
+        if(millis() >= endTime + END_TIME_OFFSET) // TODO: Nicer end game state
+        {
+            Reset();
+            gameEnded = false;
+        }
+
+        return;
+    }
+
     if (confirmButton.wasPressed())
     {
         //Serial.println("Long press");
@@ -215,10 +230,14 @@ void loop()
         MoveSelect();
 
         int winner = CheckWin();
-        if(winner != 0)
-            Reset();
-        else if(FieldFull())
-            Reset();
+        if(winner != 0 || FieldFull())
+        {
+            blinkPin[0] = -1;
+            blinkPin[1] = -1;
+
+            gameEnded = true;
+            endTime = millis();
+        }
     }
 
     if(selectButton.wasPressed())
