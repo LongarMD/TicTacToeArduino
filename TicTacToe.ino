@@ -2,15 +2,15 @@
 
 const int PRIMARY_C = 1;
 
-int MUX_SELECT[3] = {10, 9, 8};
-int MUX_INPUT[2] = {6, 7};
+int MUX_SELECT[3] = {10, 9, 8}; // ATTINY: 0, 1, 2
+int MUX_INPUT[2] = {6, 7}; // ATTINY: 3, 4
 int MUX_CONFIG[3][3][3] = {
     {{0, 0, 0}, {0, 0, 1}, {0, 1, 0}},
     {{0, 1, 1}, {1, 0, 0}, {1, 0, 1}},
     {{1, 1, 0}, {1, 1, 1}, {-1, -1, -1}}
 };
 
-int EXTRA_LED[2] = {3, 5};
+int EXTRA_LED[2] = {3, 5}; // ATTINY: 5, 6
 
 int gameState[3][3] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
 
@@ -26,7 +26,7 @@ unsigned long endTime = 0;
 int currentPlayer = 1;
 int currentPos[2] = {0, 0};
 
-Button confirmButton(11);
+Button confirmButton(11); // ATTINY: 9, 10
 Button selectButton(12);
 
 void setup(){
@@ -207,7 +207,7 @@ void loop()
 
     if(gameEnded)
     {
-        if(millis() >= endTime + END_TIME_OFFSET) // TODO: Nicer end game state
+        if(millis() >= endTime + END_TIME_OFFSET) // TODO: Nicer end game state 
         {
             Reset();
             gameEnded = false;
